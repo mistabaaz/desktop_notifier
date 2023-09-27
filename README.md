@@ -1,2 +1,3 @@
-# desktop_notifier
-Command line utility to remind you every 10 mins or let you customize. Made with python and love.
+Made with 🖤
+---
+Listen I copied some audio files and images from internet but whole the code is purely written by me.
