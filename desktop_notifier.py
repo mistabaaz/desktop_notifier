@@ -2,7 +2,16 @@ from plyer import notification
 import time
 import argparse
 import vlc
- 
+
+def notify():
+   """function to notify"""
+   time.sleep(0.5)
+   player = vlc.MediaPlayer(args.ringtone)
+   player.set_time(0)
+   player.play()
+   notification.notify(app_name=args.appName,app_icon=args.icon,title=args.title,message=args.msg,timeout=args.timeout)
+   sec = args.delay*60
+   time.sleep(sec)
 
 App = "Desktop Notifyer"
 Icon = "clock.ico"
@@ -19,21 +28,23 @@ parser.add_argument("-title","--title",type=str,help="Purpose of notification",d
 parser.add_argument("-desc","--msg",type=str,help="To give long description of notifying",default=None)
 parser.add_argument("-t","--timeout",type= float,help="How much long a notification have to stay",default=10)
 parser.add_argument("-r","--repeats",type= float,help="How much time you want to repeat this notification",default=None)
-parser.add_argument("-ring","--ringtone",type=str,help="Path to eingtone ",default=ring)
+parser.add_argument("-ring","--ringtone",type=str,help="Path to ringtone ",default=ring)
 args = parser.parse_args()
 
 #assigning default title to notification
 if args.msg is None:
    args.msg = f"You are working more than {int(args.delay)} minutes"
 
-i = 1
-while i <= args.repeats :
-    print(f"\nBreak number {i}")
-    time.sleep(0.5)
-    player = vlc.MediaPlayer(ring)
-    player.set_time(0)
-    player.play()
-    notification.notify(app_name=args.appName,app_icon=args.icon,title=args.title,message=args.msg,timeout=args.timeout)
-    sec = args.delay*60
-    time.sleep(sec)
-    i = i + 1
+if args.repeats is None:
+   i = 1
+   while True:
+      print(f"\nBreak number {i}")
+      notify()
+      i = i + 1
+else:
+   i = 1
+   while i <= args.repeats :
+      print(f"\nBreak number {i}")
+      notify()
+      i = i + 1
+    
